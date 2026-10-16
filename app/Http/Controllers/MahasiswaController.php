@@ -8,17 +8,28 @@ use App\Models\Mahasiswa;
 
 class MahasiswaController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $mahasiswa = Mahasiswa::all();
+        $search = trim($request->query('search', ''));
+
+        $mahasiswa = Mahasiswa::query()
+            ->when($search !== '', function ($query) use ($search) {
+                $query->where(function ($query) use ($search) {
+                    $query->where('nama', 'like', "%{$search}%")
+                        ->orWhere('nim', 'like', "%{$search}%")
+                        ->orWhere('email', 'like', "%{$search}%");
+                });
+            })
+            ->get();
+
         return view('mahasiswa.index', compact('mahasiswa'));
     }
 
     public function store(Request $request)
     {
         $data = $request->validate([
-            'nama' => 'required',
-            'nim' => 'required|unique:mahasiswas,nim',
+            'nama' => 'required|string|max:100',
+            'nim' => 'required|string|max:20|unique:mahasiswas,nim',
             'email' => 'required|email',
         ], [
             'nim.unique' => 'NIM tersebut sudah terdaftar. Silakan gunakan NIM lain.',
