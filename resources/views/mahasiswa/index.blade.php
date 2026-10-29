@@ -13,7 +13,7 @@
             </div>
         @endif
 
-        <section class="grid gap-7 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start">
+        <section class="grid gap-6 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:items-start">
             <x-panel title="Tambah mahasiswa" description="Lengkapi informasi berikut untuk menyimpan data baru.">
                 <x-validation-errors />
 
@@ -26,41 +26,65 @@
                 </form>
             </x-panel>
 
-            <div class="overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
-                <div class="flex items-center justify-between border-b border-slate-200 px-6 py-5 sm:px-7">
-                    <div>
-                        <h2 class="text-lg font-semibold text-slate-950">Daftar mahasiswa</h2>
-                        <p class="mt-1 text-sm text-slate-500">{{ $mahasiswa->count() }} data ditemukan</p>
+            <div class="min-w-0 overflow-hidden rounded-xl border border-slate-200 bg-white shadow-sm">
+                <div class="flex items-center justify-between gap-4 border-b border-slate-200 px-5 py-5 sm:px-7">
+                    <div class="flex items-center gap-3">
+                        <div class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-blue-50 text-blue-700" aria-hidden="true">
+                            <svg class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M16 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                                <circle cx="10" cy="7" r="4" />
+                                <path d="M20 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" />
+                            </svg>
+                        </div>
+                        <div>
+                            <h2 class="text-lg font-semibold text-slate-950">Daftar mahasiswa</h2>
+                            <p class="mt-1 text-sm text-slate-500">Data mahasiswa terdaftar</p>
+                        </div>
                     </div>
-                    <span class="rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">Aktif</span>
+                    <span class="shrink-0 rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700">{{ $mahasiswa->count() }} hasil</span>
                 </div>
-                <form action="/mahasiswa" method="GET" role="search" class="flex gap-2 border-b border-slate-200 px-6 py-4 sm:px-7">
-                    <label for="search" class="sr-only">Cari nama, NIM, atau email</label>
-                    <input id="search" name="search" type="search" value="{{ request('search') }}" placeholder="Cari nama, NIM, atau email..." class="min-w-0 flex-1 rounded-lg border border-slate-300 px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
-                    <button type="submit" class="inline-flex items-center justify-center rounded-lg bg-blue-600 px-4 py-2 text-sm font-semibold text-white transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">Cari</button>
+                <form action="/mahasiswa" method="GET" role="search" class="flex flex-col gap-3 border-b border-slate-200 bg-slate-50 px-5 py-4 sm:flex-row sm:px-7">
+                    <div class="min-w-0 flex-1">
+                        <label for="search" class="mb-2 block text-xs font-semibold text-slate-600">Cari mahasiswa</label>
+                        <input id="search" name="search" type="search" value="{{ request('search') }}" placeholder="Nama, NIM, atau email" class="w-full rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-900 placeholder:text-slate-400 shadow-sm transition focus:border-blue-500 focus:outline-none focus:ring-4 focus:ring-blue-100">
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="submit" class="inline-flex flex-1 items-center justify-center gap-2 rounded-lg bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-blue-700 focus:outline-none focus:ring-4 focus:ring-blue-200">
+                            <svg class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                                <circle cx="11" cy="11" r="8" />
+                                <path d="m21 21-4.35-4.35" />
+                            </svg>
+                            Cari
+                        </button>
                     @if(request('search'))
-                        <a href="/mahasiswa" class="inline-flex items-center justify-center rounded-lg border border-slate-300 px-3 py-2 text-sm font-semibold text-slate-700 transition hover:bg-slate-50">Reset</a>
+                        <a href="/mahasiswa" class="inline-flex items-center justify-center rounded-lg border border-slate-300 bg-white px-3 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50">Reset</a>
                     @endif
+                    </div>
                 </form>
                 <div class="overflow-x-auto">
                     <table class="w-full min-w-[560px] text-left text-sm">
-                        <thead class="bg-slate-50 text-xs uppercase tracking-wider text-slate-500">
+                        <thead class="bg-white text-xs uppercase tracking-wider text-slate-400">
                             <tr>
-                                <th class="px-6 py-3.5 font-semibold sm:px-7">Mahasiswa</th>
+                                <th class="px-5 py-3.5 font-semibold sm:px-7">Mahasiswa</th>
                                 <th class="px-4 py-3.5 font-semibold">NIM</th>
                                 <th class="px-4 py-3.5 font-semibold">Email</th>
-                                <th class="px-4 py-3.5 font-semibold">Aksi</th>
+                                <th class="px-5 py-3.5 font-semibold sm:px-7">Aksi</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-slate-100">
                             @forelse($mahasiswa as $mhs)
                                 <tr class="transition hover:bg-blue-50/50">
-                                    <td class="px-6 py-4 font-medium text-slate-900 sm:px-7">{{ $mhs->nama }}</td>
-                                    <td class="whitespace-nowrap px-4 py-4 text-slate-600">{{ $mhs->nim }}</td>
+                                    <td class="px-5 py-4 sm:px-7">
+                                        <div class="flex items-center gap-3">
+                                            <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-sm font-semibold text-blue-700">{{ str($mhs->nama)->substr(0, 1)->upper() }}</span>
+                                            <span class="font-semibold text-slate-900">{{ $mhs->nama }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="whitespace-nowrap px-4 py-4 font-medium text-slate-600">{{ $mhs->nim }}</td>
                                     <td class="px-4 py-4 text-slate-600">{{ $mhs->email }}</td>
-                                    <td class="whitespace-nowrap px-4 py-4">
-                                        <div class="flex items-center gap-2">
-                                            <a href="/mahasiswa/{{ $mhs->id }}/edit" class="inline-flex items-center rounded-lg border border-blue-200 px-3 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-100">Edit</a>
+                                    <td class="whitespace-nowrap px-5 py-4 sm:px-7">
+                                        <div class="flex items-center justify-end gap-2">
+                                            <a href="/mahasiswa/{{ $mhs->id }}/edit" class="inline-flex items-center rounded-lg border border-blue-200 bg-white px-3 py-2 text-sm font-semibold text-blue-700 transition hover:bg-blue-50 focus:outline-none focus:ring-4 focus:ring-blue-100">Edit</a>
                                             <form action="/mahasiswa/{{ $mhs->id }}" method="POST" class="delete-form">
                                                 @csrf
                                                 @method('DELETE')
@@ -69,7 +93,7 @@
                                                     data-mahasiswa-name="{{ $mhs->nama }}"
                                                     data-mahasiswa-nim="{{ $mhs->nim }}"
                                                     data-mahasiswa-email="{{ $mhs->email }}"
-                                                    class="inline-flex items-center rounded-lg border border-red-200 px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-100"
+                                                    class="inline-flex items-center rounded-lg border border-red-200 bg-white px-3 py-2 text-sm font-semibold text-red-700 transition hover:bg-red-50 focus:outline-none focus:ring-4 focus:ring-red-100"
                                                 >Hapus</button>
                                             </form>
                                         </div>
@@ -77,8 +101,14 @@
                                 </tr>
                             @empty
                                 <tr>
-                                        <td colspan="4" class="px-6 py-12 text-center sm:px-7">
-                                        <p class="font-medium text-slate-700">{{ request('search') ? 'Mahasiswa tidak ditemukan' : 'Belum ada data mahasiswa' }}</p>
+                                        <td colspan="4" class="px-6 py-14 text-center sm:px-7">
+                                        <span class="mx-auto mb-3 flex h-11 w-11 items-center justify-center rounded-full bg-blue-50 text-blue-700" aria-hidden="true">
+                                            <svg class="h-5 w-5" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                                <circle cx="11" cy="11" r="8" />
+                                                <path d="m21 21-4.35-4.35" />
+                                            </svg>
+                                        </span>
+                                        <p class="font-semibold text-slate-800">{{ request('search') ? 'Mahasiswa tidak ditemukan' : 'Belum ada data mahasiswa' }}</p>
                                         <p class="mt-1 text-sm text-slate-500">{{ request('search') ? 'Coba kata kunci lain.' : 'Data yang ditambahkan akan muncul di sini.' }}</p>
                                     </td>
                                 </tr>
